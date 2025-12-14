@@ -11,84 +11,82 @@
 
   <style>
     /* Base Styles */
-    /* Reset default padding/margin and set box-sizing */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    /* Body uses Poppins for general text, black background and white text */
+
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #000;
       color: #fff;
+      padding-top: 90px; /* space so fixed navbar doesn't cover content */
     }
 
-    /* Navbar .styles referenced from index.html */
-    /* The top navigation bar container */
     .navbar {
-      background: rgba(73, 72, 129, 0.85); /* semi-transparent purple */
+      background: rgba(73, 72, 129, 0.85);
       padding: 6px 20px;
-      display: flex; /* flexbox for alignment */
+      display: flex;
       align-items: center;
       justify-content: center;
-      position: fixed; /* sticks to top */
+      position: fixed;
       top: 0;
       width: 100%;
       height: 70px;
-      z-index: 999; /* sits above other content */
-      gap: 100px; /* space between links */
+      z-index: 999;
+      gap: 100px;
     }
-    /* Logo image inside navbar */
+
     .logo {
       position: absolute;
       top: 50%;
       left: 20px;
       transform: translateY(-50%);
       height: 65px;
-      cursor: pointer; /* pointer on hover */
+      cursor: pointer;
     }
-    /* The list of navigation links */
+
     .nav-links {
-      list-style: none; 
+      list-style: none;
       display: flex;
-      gap: 100px; /* spacing between items */
+      gap: 100px;
       align-items: center;
       justify-content: center;
-      font-family: 'Magra', sans-serif;/* uses Magra font */
+      font-family: 'Magra', sans-serif;
     }
-    /* Styling for each link */
+
     .nav-links a {
       text-decoration: none;
       color: white;
       font-size: 1rem;
     }
-    /* Hover effect for nav links */
+
     .nav-links a:hover {
-      color: #4db8ff; /* light blue when mouse hovers over an option */
+      color: #4db8ff;
     }
-    /* Dropdown container positioning */
+
     .dropdown {
       position: relative;
     }
-    /* Dropdown "button" styling */
+
     .dropdown > a {
       background-color: rgba(229, 225, 255, 0.39);
       border-radius: 20px;
       padding: 10px 20px;
-      display: inline-block; 
+      display: inline-block;
       color: white;
       font-weight: bold;
     }
-    /* Arrow icon indicating dropdown */
+
     .dropdown > a::after {
       content: ' ▾';
     }
-    /* Flip arrow when open */
+
     .dropdown.open > a::after {
       content: ' ▴';
     }
-    /* Dropdown menu (hidden by default) */
+
     .dropdown-content {
       position: absolute;
       display: none;
@@ -97,16 +95,17 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
       padding: 10px;
-      top: 100%; /* appears below button */
+      top: 100%;
       left: 50%;
       transform: translateX(-50%);
       min-width: 220px;
       z-index: 999;
     }
+
     .dropdown.open .dropdown-content {
       display: flex;
     }
-    /* Links inside dropdown */
+
     .dropdown-content a {
       display: block;
       padding: 10px 15px;
@@ -114,30 +113,28 @@
       color: black;
       border-radius: 4px;
     }
-    /* Hover effect for dropdown links */
+
     .dropdown-content a:hover {
       background-color: #4db8ff;
       color: black;
     }
-    /* Hamburger menu icon, hidden on desktop */
+
     .hamburger {
       display: none;
     }
 
-    /* Mobile Responsive Styles */
     @media (max-width: 768px) {
-      /* Navbar taller on mobile */
       .navbar {
         justify-content: center;
         background: rgba(73, 72, 129, 1);
         height: 90px;
       }
-      /* Logo reposition on mobile */
+
       .logo {
         left: 0;
         padding-left: 20px;
       }
-      /* Hide nav links drawer by default */
+
       .nav-links {
         display: none;
         flex-direction: column;
@@ -148,10 +145,11 @@
         width: 100%;
         padding: 20px 0;
       }
+
       .nav-links.active {
         display: flex;
       }
-      /* Show hamburger, enlarge it */
+
       .hamburger {
         display: block;
         position: static;
@@ -162,45 +160,49 @@
       }
     }
 
-    /* Space below navbar so content isn't hidden */
-    .video-container { margin-top: 90px; display: flex; justify-content: center; } /* Center video */
-    .video-container video { width: 100%; max-width: 1200px; height: auto; }
+    .video-container { 
+      margin-top: 10px; 
+      display: flex; 
+      justify-content: center; 
+    }
 
-    /* Headings styling */
+    .video-container video { 
+      width: 100%; 
+      max-width: 1200px; 
+      height: auto; 
+    }
+
     h1, h2 {
       font-family: 'Hammersmith One', sans-serif;
       text-align: center;
       margin: 40px 0 20px;
     }
-    /* Paragraph wrapper for console description */
+
     .console-description {
       max-width: 800px;
       margin: 0 auto 40px;
       line-height: 1.6;
     }
 
-    /* Slideshow container */
     .slideshow-container {
       position: relative;
       max-width: 1000px;
       margin: 0 auto 40px;
     }
-    .mySlides { display: none; }
-    .mySlides img { width: 100%; border-radius: 8px; }
-    .prev, .next {
-      cursor: pointer;
-      position: absolute;
-      top: 50%;
-      padding: 16px;
-      margin-top: -22px;
-      font-weight: bold;
-      font-size: 18px;
-      user-select: none;
+
+    .mySlides { 
+      display: none; 
     }
-    .prev { left: 0; }
-    .next { right: 0; }
-    .prev:hover, .next:hover { background: rgba(0,0,0,0.5); } /* dark background on hover */
-    .dots { text-align: center; }
+
+    .mySlides img { 
+      width: 100%; 
+      border-radius: 8px; 
+    }
+
+    .dots { 
+      text-align: center; 
+    }
+
     .dot {
       cursor: pointer;
       height: 12px;
@@ -210,25 +212,47 @@
       border-radius: 50%;
       display: inline-block;
     }
-    .active, .dot:hover { background: #717171; }
 
-    /* Specs list styling */
-    .specs-list { max-width: 800px; margin: 0 auto 40px; padding-left: 20px; }
-    .specs-list li { margin-bottom: 10px; }
+    .active, .dot:hover { 
+      background: #717171; 
+    }
 
-    /* Games grid */
-    .games-row { display: grid; gap: 20px; max-width: 1200px; margin: 0 auto 40px; }
-    .two { grid-template-columns: repeat(2, 1fr); } /* 2 images for first row */
-    .three { grid-template-columns: repeat(3, 1fr); } /* 3 images for second row */
-    .games-row img { width: 100%; border-radius: 8px; }
-    .games-caption { text-align: center; margin-top: 8px; font-size: 0.9rem; }
+    .specs-list { 
+      max-width: 800px; 
+      margin: 0 auto 40px; 
+      padding-left: 20px; 
+    }
 
-    /* Footer styling (copied from index.html) */
+    .specs-list li { 
+      margin-bottom: 10px; 
+    }
+
+    .games-row { 
+      display: grid; 
+      gap: 20px; 
+      max-width: 1200px; 
+      margin: 0 auto 40px; 
+    }
+
+    .two { 
+      grid-template-columns: repeat(2, 1fr); 
+    }
+
+    .three { 
+      grid-template-columns: repeat(3, 1fr); 
+    }
+
+    .games-row img { 
+      width: 100%; 
+      border-radius: 8px; 
+    }
+
     footer {
       text-align: center;
       padding: 20px;
       background-color: #382E6A;
     }
+
     footer img {
       width: 170px;
     }
@@ -236,13 +260,9 @@
 </head>
 <body>
 
-  <!-- Header & Navbar -->
   <header>
     <nav class="navbar">
-      <!-- Logo links back to index.html -->
       <a href="index.html"><img src="Images/home/logo.png" alt="Gamer News Logo" class="logo"></a>
-
-      <!-- Main navigation links -->
       <ul class="nav-links">
         <li><a href="consoles.html">Gaming Consoles</a></li>
         <li><a href="tweets.html">Game Developer Tweets</a></li>
@@ -255,18 +275,13 @@
           </ul>
         </li>
       </ul>
-
-      <!-- Hamburger icon for mobile -->
       <div class="hamburger">☰</div>
     </nav>
   </header>
 
-  <!-- Divider below navbar for visual separation -->
   <div class="header-divider"></div>
 
-  <!-- Page Content -->
   <div class="video-container">
-    <!-- Trailer video plays, muted (has choice to unmute video), loops until user changes page or pauses video -->
     <video src="Images/console/trailer.mp4" controls autoplay muted loop></video>
   </div>
 
@@ -277,23 +292,18 @@
     </p>
   </section>
 
-  <!-- Slideshow of console banners -->
   <div class="slideshow-container">
     <div class="mySlides"><img src="Images/console/carousel/cbanner.png" alt="Banner 1"></div>
     <div class="mySlides"><img src="Images/console/carousel/cbanner2.png" alt="Banner 2"></div>
     <div class="mySlides"><img src="Images/console/carousel/cbanner3.png" alt="Banner 3"></div>
-    <!-- Previous /Next arrows, show/hide slides -->
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
   </div>
+
   <div class="dots">
-    <!-- Dot navigation for slides -->
     <span class="dot" onclick="currentSlide(1)"></span>
     <span class="dot" onclick="currentSlide(2)"></span>
     <span class="dot" onclick="currentSlide(3)"></span>
   </div>
 
-  <!-- Bullet-point about the slideshow -->
   <ul class="specs-list">
     <li>Due to high demand, there is a limit of 1 console per order.</li>
     <li>DISC-FREE CONSOLE – Internet connection and an account for PlayStation™Network required.</li>
@@ -302,42 +312,34 @@
     <li>Paid for PlayStation®Plus subscription required for online multiplayer. Sold separately.</li>
   </ul>
 
-  <!-- Games grid: 2 on first row, 3 on second -->
   <h2>5 Popular Games Remastered on PS5 Pro</h2>
   <div class="games-row two">
     <div>
       <img src="Images/console/resident-evil.png" alt="Resident Evil 4">
-      <div class="games-caption">Resident Evil 4</div>
     </div>
     <div>
       <img src="Images/console/ghost-of-tsu.png" alt="Ghost of Tsushima">
-      <div class="games-caption">Ghost of Tsushima</div>
     </div>
   </div>
   <div class="games-row three">
     <div>
       <img src="Images/console/dead-space.png" alt="Dead Space">
-      <div class="games-caption">Dead Space</div>
     </div>
     <div>
       <img src="Images/console/final-fantasy-7.png" alt="Final Fantasy 7">
-      <div class="games-caption">Final Fantasy 7</div>
     </div>
     <div>
       <img src="Images/console/demon-souls.png" alt="Demon Souls">
-      <div class="games-caption">Demon Souls</div>
     </div>
   </div>
 
   <footer>
-    <!-- Social media icons image -->
     <img src="Images/home/OIP-removebg-preview 1.png" alt="Social Media Icons">
     <button onclick="changetolight()">Light</button>
     <button onclick="changetodark()">Dark</button>
   </footer>
 
   <script>
-    /* Dropdown toggle: clicking the Games link shows/hides submenu */
     document.querySelectorAll('.dropdown > a').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -345,49 +347,43 @@
       });
     });
 
-    /* Hamburger menu: brings up nav-links on mobile */
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('active');
     });
 
-    /* Slideshow functions: showSlides, plusSlides, currentSlide */
-    let slideIndex = 1;                 
-    showSlides(slideIndex); // Starts on the first slide when page first loads up.
+    let slideIndex = 1;
+    showSlides(slideIndex);
 
-    function plusSlides(n) {
-      showSlides(slideIndex += n);
-    }
     function currentSlide(n) {
       showSlides(slideIndex = n);
     }
+
     function showSlides(n) {
       const slides = document.getElementsByClassName('mySlides');
       const dots = document.getElementsByClassName('dot');
-      if (n > slides.length) slideIndex = 1; // loop back to first
-      if (n < 1) slideIndex = slides.length; // loop to last
-      // hide all slides
+      if (n > slides.length) slideIndex = 1;
+      if (n < 1) slideIndex = slides.length;
+
       for (let i = 0; i < slides.length; i++) {
         slides[i].style.display = 'none';
       }
-      // deactivate all dots
       for (let i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(' active', '');
       }
-      // show the current slide and activate corresponding dot
       slides[slideIndex - 1].style.display = 'block';
       dots[slideIndex - 1].className += ' active';
     }
 
-      function changetolight() {
-    document.body.style.backgroundColor = "white";
-    document.body.style.color = "black";
-  }
-  function changetodark() {
-    document.body.style.backgroundColor = "#000000";
-    document.body.style.color = "#ffffff";
-  }
+    function changetolight() {
+      document.body.style.backgroundColor = "white";
+      document.body.style.color = "black";
+    }
+    function changetodark() {
+      document.body.style.backgroundColor = "#000000";
+      document.body.style.color = "#ffffff";
+    }
   </script>
 </body>
 </html>
