@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stardew Valley – Gamer News</title>
+  <link href="https://fonts.googleapis.com/css2?family=Magra&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base */
+    body {
+      margin: 0;
+      font-family: 'Magra', sans-serif;
+      background-color: #121212;
+      color: white;
+    }
+    .navbar {
+      background: rgba(73, 72, 129, 0.85);
+      padding: 6px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 70px;
+      z-index: 999;
+      gap: 100px;
+    }
+    .logo {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      height: 65px;
+      cursor: pointer;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 100px;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Magra', sans-serif;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .nav-links a:hover {
+      color: #4db8ff; /* Hover color for nav links */
+    }
+    .dropdown { position: relative; }
+    .dropdown > a {
+      background-color: rgba(229, 225, 255, 0.39);
+      border-radius: 20px;
+      padding: 10px 20px;
+      display: inline-block; 
+      color: white;
+      font-weight: bold;
+    }
+    .dropdown > a::after { content: ' ▾'; }
+    .dropdown.open > a::after { content: ' ▴'; }
+    .dropdown-content {
+      position: absolute;
+      display: none;
+      flex-direction: column;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      padding: 10px;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 220px;
+      z-index: 999;
+    }
+    .dropdown.open .dropdown-content { display: flex; }
+    .dropdown-content a {
+      color: black;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+      border-radius: 4px;
+    }
+    .dropdown-content a:hover { background-color: #4db8ff; color: black; }
+    .hamburger { display: none; }
+
+    /* thin purple line under nav */
+    .header-divider {
+      height: 2px;
+      background-color: #9c27b0;
+      width: 100%;
+      margin-top: 70px;
+    }
+
+    /* Hero banner */
+    .hero {
+      background: url('Images/stardew/banner9.png') no-repeat center center/cover;
+      margin-top: -70px;
+      padding-top: 70px;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .hero-logo {
+      position: absolute;
+      bottom: 20px;
+      transform: scale(0.7);
+    }
+
+    /* divider */
+    .divider {
+      height: 2px;
+      background-color: #9c27b0;
+      width: 100%;
+    }
+
+    /* Main background wrapper */
+    .content-background {
+      background: url('Images/stardew/banner10.png') repeat-y center top/cover;
+    }
+
+    /* Section: text + image */
+    .section3 {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 20px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section3 .text {
+      flex: 1;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .section3 .image {
+      flex: 1;
+    }
+    .section3 .image img {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+    }
+
+    /* General banner images */
+    .banner-img img {
+      width: 100%;
+      display: block;
+      margin: 20px auto;
+      border-radius: 8px;
+    }
+
+    /* Text blocks */
+    .text-block {
+      padding: 20px;
+      max-width: 800px;
+      margin: 20px auto; /* Center the text block */
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    /* Mods banners  */
+    .banner6 img,
+    .banner7 img {
+      width: 80%;
+      max-width: 800px;
+      display: block;
+      margin: 30px auto;
+      border-radius: 8px;
+    }
+
+    /* Youtube Image/Video banner */
+    .banner1 {
+      position: relative; /* Center the banner */
+      margin: 0;
+    }
+    .banner1 img {
+      width: 80%;
+      display: block;
+      margin: 0 auto;
+    }
+    .youtube-link {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .youtube-link img {
+      width: 80px;
+      height: auto;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #382E6A;
+    }
+    footer img { width: 170px; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .navbar {
+        justify-content: center;
+        background: rgba(73, 72, 129, 1);
+        height: 90px;
+      }
+      .logo { left: 0; padding-left: 20px; } /* Logo resets */
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background: rgba(73, 72, 129, 1);
+        position: absolute;
+        top: 90px;
+        right: 0;
+        width: 100%;
+        padding: 20px 0;
+      }
+      .nav-links.active { display: flex; }
+      .hamburger {
+        display: block;
+        font-size: 3rem;
+        position: static;
+        margin: 0 auto;
+        cursor: pointer;
+      }
+      .hero-logo { width: clamp(150px, 25vw, 260px); height: auto; bottom: 10px; } /* Hero logo */
+      .section3 { flex-direction: column; padding: 20px; } /* Section3 */
+      .text-block { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- header/nav -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html"><img src="Images/home/logo.png" alt="Gamer News Logo" class="logo"></a>
+      <ul class="nav-links">
+        <li><a href="consoles.html">Gaming Consoles</a></li>
+        <li><a href="tweets.html">Game Developer Tweets</a></li>
+        <li class="dropdown">
+          <a href="#">Games</a>
+          <ul class="dropdown-content">
+            <li><a href="sims4.html">The Sims 4</a></li>
+            <li><a href="stardew-valley.html">Stardew Valley</a></li>
+            <li><a href="minecraft.html">Minecraft</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="hamburger">☰</div>
+    </nav>
+    <div class="header-divider"></div>
+  </header>
+
+  <!-- hero banner -->
+  <section class="hero">
+    <img src="Images/stardew/logo.png" alt="Stardew Valley Logo" class="hero-logo">
+  </section>
+
+  <!-- purple divider -->
+  <div class="divider"></div>
+
+  <!-- main background -->
+  <div class="content-background">
+
+    <!-- intro section -->
+    <section class="section3">
+      <div class="text">
+        <p>Stardew Valley is a popular farming simulation RPG where players grow crops, raise animals, forge relationships, and explore mines in a charming pixel-art world. The game offers a relaxing yet engaging experience with countless ways to customize and play. Stardew Valley also offers multiplayer mode which allows players to complete the game with a friend or through local split-screen.</p>
+      </div>
+      <div class="image">
+        <img src="Images/stardew/banner2.png" alt="Farming Scene">
+      </div>
+    </section>
+
+    <!-- new content banner -->
+    <section class="banner-img">
+      <img src="Images/stardew/banner3.png" alt="New Content">
+    </section>
+
+    <!-- additional banner5 under banner3 as requested -->
+    <section class="banner-img">
+      <img src="Images/stardew/banner5.png" alt="Feature Banner">
+    </section>
+
+    <!-- statistics about game text -->
+    <section class="text-block">
+      <p>As of December 2024, Stardew Valley has sold over 41 million copies across all platforms, making it the 15th best-selling game of all time, including 26 million on PC and 7.9 million on the Nintendo Switch. Remarkably, it added 11 million sales in just 10 months, boosted by its expansive 1.6 update in March, which introduced new content, bug fixes, and gameplay enhancements.</p>
+    </section>
+
+    <!-- mods showcase with links when image is pressed on -->
+    <section class="banner6">
+      <a href="https://www.nexusmods.com/stardewvalley/mods/3753?tab=files" target="_blank">
+        <img src="Images/stardew/banner6.png" alt="Stardew Valley Expanded">
+      </a>
+    </section>
+    <section class="banner7">
+      <a href="https://www.nexusmods.com/stardewvalley/mods/7286" target="_blank">
+        <img src="Images/stardew/banner7.png" alt="Ridgeside Village">
+      </a>
+    </section>
+
+    <!-- mod info -->
+    <section class="text-block">
+      <p>Nexus Mods is the go-to platform for installing mods for Stardew Valley, offering a wide variety of options to enhance your gameplay. If you're looking for a free modded expansion, consider Stardew Valley Expanded or Ridgeside Village, which add new areas, characters, and events to the game. Remember to regularly check for mod updates to ensure compatibility and smooth gameplay.</p>
+      <p>ConcernedApe, the creator of Stardew Valley, is now working on Haunted Chocolatier, his next project that blends whimsical charm with a fresh gameplay concept. For more information, visit <a href="https://concernedape.wordpress.com" target="_blank">ConcernedApe's blog</a>.</p>
+    </section>
+
+    <!-- trailer -->
+    <section class="banner1">
+      <img src="Images/stardew/banner1.png" alt="Haunted Chocolatier Trailer">
+      <a href="https://youtu.be/ASlkM-mf1zk?si=o276ashTe97GuATb" target="_blank" class="youtube-link">
+        <img src="Images/stardew/Youtube.png" alt="Watch on YouTube">
+      </a>
+    </section>
+
+  </div> <!-- end content-background -->
+
+  <!-- footer -->
+  <footer>
+    <img src="Images/home/OIP-removebg-preview 1.png" alt="Social Media Icons">
+    <button onclick="changetolight()">Light</button>
+    <button onclick="changetodark()">Dark</button>
+  </footer>
+
+  <script>
+    // dropdown toggle
+    document.querySelectorAll('.dropdown > a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        link.parentElement.classList.toggle('open');
+      });
+    });
+    // hamburger toggle
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    function changetolight() {
+    document.body.style.backgroundColor = "white";
+    document.body.style.color = "black";
+
+  }
+  function changetodark() {
+    document.body.style.backgroundColor = "#000000";
+    document.body.style.color = "#ffffff";
+  }
+  </script>
+</body>
+</html>

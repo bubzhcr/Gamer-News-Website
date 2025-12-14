@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minecraft – Gamer News</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base Styles */
+    body {
+      margin: 0;
+      font-family: 'Magra', sans-serif;
+      background-color: #000000;
+      color: white;
+    }
+
+    /* Navbar Styles (from index.html) */
+    .navbar {
+      background: rgba(73, 72, 129, 0.85); /* Navbar color */
+      padding: 6px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 999; /* Keep navbar on top */
+      gap: 100px;
+      height: 70px;
+    }
+    .logo {
+      position: absolute; /* Logo position */
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      height: 65px;
+      cursor: pointer;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 100px; /* Space between nav links */
+      align-items: center;
+      justify-content: center;
+      font-family: 'Magra', sans-serif;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem; /* Font size for nav links */
+    }
+    .nav-links a:hover {
+      color: #4db8ff; /* Hover color for nav links */
+    }
+    .dropdown {
+      position: relative; /* Dropdown menu */
+    }
+    .dropdown > a {
+      background-color: rgba(229, 225, 255, 0.39);
+      border-radius: 20px;
+      padding: 10px 20px;
+      display: inline-block;
+      color: white;
+      font-weight: bold;
+    }
+    .dropdown > a::after {
+      content: ' ▾'; /* Arrow for dropdown */
+    }
+    .dropdown.open > a::after {
+      content: ' ▴'; /* Arrow for open dropdown */
+    }
+    .dropdown-content {
+      position: absolute;
+      display: none;
+      flex-direction: column;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3); /* Shadow for dropdown */
+      padding: 10px;
+      z-index: 999;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%); /* Center dropdown */
+      min-width: 220px;
+    }
+    .dropdown.open .dropdown-content {
+      display: flex; /* Show dropdown on click */
+    }
+    .dropdown-content a {
+      color: black;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+      border-radius: 4px;
+    }
+    .dropdown-content a:hover {
+      background-color: #4db8ff;
+      color: black;
+    }
+    .hamburger {
+      display: none; /* Hide hamburger on desktop */
+    }
+
+    /* Mobile Navbar Styles (from index.html) */
+    @media (max-width: 768px) {
+      .navbar {
+        justify-content: center;
+        background: rgba(73, 72, 129, 1);
+        height: 90px;
+      }
+      .logo {
+        left: 0;
+        padding-left: 20px;
+      }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background: rgba(73, 72, 129, 1);
+        position: absolute;
+        top: 90px;
+        right: 0;
+        width: 100%;
+        border-radius: 0; /* No corner radius */
+        padding: 20px 0;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .hamburger {
+        display: block;
+        position: static;
+        margin: 0 auto;
+        transform: scale(3); /* Enlarge hamburger */
+        transform-origin: center center;
+        cursor: pointer;
+      }
+    }
+
+    /* Divider under header (from index.html) */
+    .header-divider {
+      height: 2px;
+      background-color: #9c27b0;
+      width: 100%;
+      margin-top: 70px;
+    }
+
+    /* Hero banner */
+    .hero {
+        background: url('Images/minecraft/banner5.png') no-repeat center center/cover;
+        margin-top: -70px;
+        padding-top: 70px;
+        height: 100vh;
+        position: relative;
+        display: flex;
+        align-items: flex-end; /* Align logo to bottom of the image*/
+        justify-content: center; /* Center the logo, so it is at the bottom and center. */
+    }
+    .hero-logo {
+      position: absolute;
+      bottom: 20px;
+      transform: scale(0.7); /* Scale down the logo */
+    }
+
+    /* Purple divider (from index.html) */
+    .divider {
+      height: 2px;
+      background-color: #9c27b0;
+      width: 100%;
+    }
+
+    /* Content background */
+    .content-background {
+      background: url('Images/minecraft/banner.png') repeat-y center top/cover;
+      padding-bottom: 40px;
+    }
+
+    /* Heading above slideshow */
+    .text-banner {
+      text-align: center;
+      padding: 40px 20px;
+      font-family: 'Hammersmith One', sans-serif;
+      font-size: 2rem;
+      text-transform: uppercase; /* Uppercase text */
+    }
+
+    /* Slideshow Styles (from consoles.html) */
+    .slideshow-container {
+      position: relative;
+      max-width: 1000px; /* Max width for slideshow */
+      margin: 0 auto 40px;
+    }
+    .mySlides { display: none; }
+    .mySlides img { width: 100%; border-radius: 8px; }
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      padding: 16px;
+      margin-top: -22px;
+      font-weight: bold;
+      font-size: 18px;
+      user-select: none;
+    }
+    .prev { left: 0; }
+    .next { right: 0; }
+    .prev:hover, .next:hover { background: rgba(0,0,0,0.5); }
+    .dots { text-align: center; }
+    .dot {
+      cursor: pointer;
+      height: 12px;
+      width: 12px;
+      margin: 0 4px;
+      background: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .active, .dot:hover { background: #717171; }
+
+    /* Text content styling */
+    .text-block {
+      padding: 0 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      font-size: 1.1rem;
+      color: white;
+    }
+    .text-block h3, /* Main heading */
+    .text-block h4 { /* Subheadings */
+      margin-top: 1.5em; /* Space above headings */
+      margin-bottom: 0.5em; /* Space below headings */
+    }
+
+    /* Footer Styles (from index.html) */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #382E6A;
+    }
+    footer img {
+      width: 170px;
+    }
+
+    /* Mobile tweaks for slideshow if needed */
+    @media (max-width: 768px) {
+      .hero-logo {
+        width: clamp(150px, 25vw, 260px);
+        height: auto;
+        bottom: 10px;
+      }
+      .text-banner {
+        font-size: 1.5rem;
+        padding: 20px;
+      }
+      .slideshow-container {
+        max-width: 100%;
+      }
+      .text-block {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header and navigation (copied from index.html) -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html"><img src="Images/home/logo.png" alt="Gamer News Logo" class="logo"></a>
+      <ul class="nav-links">
+        <li><a href="consoles.html">Gaming Consoles</a></li>
+        <li><a href="tweets.html">Game Developer Tweets</a></li>
+        <li class="dropdown">
+          <a href="#">Games</a>
+          <ul class="dropdown-content">
+            <li><a href="sims4.html">The Sims 4</a></li>
+            <li><a href="stardew-valley.html">Stardew Valley</a></li>
+            <li><a href="minecraft.html">Minecraft</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="hamburger">☰</div>
+    </nav>
+    <div class="header-divider"></div>
+  </header>
+
+  <!-- Hero banner -->
+  <section class="hero">
+    <img src="Images/minecraft/logo.png" alt="Minecraft Logo" class="hero-logo">
+  </section>
+
+  <!-- Purple divider -->
+  <div class="divider"></div>
+
+  <div class="content-background">
+    <!-- Uppercase heading -->
+    <section class="text-banner">NEW MINECRAFT HOSTILE MOB ADDED CALLED: “CREAKING”</section>
+
+    <!-- Slideshow (copied from consoles.html) -->
+    <div class="slideshow-container">
+      <div class="mySlides"><img src="Images/minecraft/banner3.png" alt="Slide 1"></div>
+      <div class="mySlides"><img src="Images/minecraft/banner2.png" alt="Slide 2"></div>
+      <div class="mySlides"><img src="Images/minecraft/banner4.png" alt="Slide 3"></div>
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <div class="dots">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+    <!-- Main text content -->
+    <section class="text-block">
+      <!-- News heading -->
+      <h3>Breaking News: Meet the Creaking, Minecraft’s Spooky New Mob!</h3>
+      <!-- Intro paragraph -->
+      <p>Minecraft players, brace yourselves! Mojang has added a spine-chilling new mob called the Creaking, and it’s already sending shivers through the community. This ghostly entity makes its debut in the latest update, adding a layer of eerie excitement to survival mode.</p>
+      <h4>How It Spawns:</h4>
+      <p>The Creaking only spawns in Deep Dark biomes and Ancient Cities, especially when a player is carrying a high amount of loot. It’s attracted by noise, much like the Warden, but its twist? It thrives on shadows. Light levels below 2 are its playground, so torches are your best friend. Beware: If you linger in the dark for too long, the Creaking emerges with its signature echoing groan.</p>
+      <h4>What Makes It Special:</h4>
+      <p>The Creaking is stealthy and smart. It fades in and out of visibility, making it a nightmare for players caught off-guard. Unlike most mobs, it doesn’t deal direct damage. Instead, it saps your stamina and slows your movement, leaving you vulnerable to other threats. And the creepiest part? It mimics sounds, creating unsettling noises that can throw you off.</p>
+      <h4>How to Survive:</h4>
+      <p>To keep the Creaking at bay, carry Soul Lanterns or stick to lit areas. If you’re brave enough to fight it, aim for enchanted weapons—the Creaking drops Shadow Fragments, which can be crafted into powerful stealth-focused gear.</p>
+      <p>The Creaking brings new challenges to exploration and keeps players on their toes. Are you ready to face the shadows? Dive into Minecraft and find out—just don’t let it hear you.</p>
+    </section>
+
+  </div>
+
+  <!-- Footer (from index.html) -->
+  <footer>
+    <img src="Images/home/OIP-removebg-preview 1.png" alt="Social Media Icons">
+    <button onclick="changetolight()">Light</button>
+    <button onclick="changetodark()">Dark</button>
+  </footer>
+
+  <script>
+    // Dropdown toggle (from index.html)
+    document.querySelectorAll('.dropdown > a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        link.parentElement.classList.toggle('open');
+      });
+    });
+
+    // Hamburger menu toggle (from index.html)
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Slideshow functionality (from consoles.html) 
+    let slideIndex = 1;                  
+    showSlides(slideIndex); // Show the first slide
+
+    function plusSlides(n) {
+      showSlides(slideIndex += n); // Change slide
+    }
+    
+    function currentSlide(n) {
+      showSlides(slideIndex = n); // Show specific slide
+    }
+    
+    function showSlides(n) {
+      const slides = document.getElementsByClassName('mySlides'); // Get all slides
+      const dots = document.getElementsByClassName('dot');
+      if (n > slides.length) slideIndex = 1; // Loop back
+      if (n < 1) slideIndex = slides.length; // Loop forward
+      // Hide all slides
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = 'none';
+      }
+      // Deactivate all dots
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(' active', '');
+      }
+      // Show current slide and activate dot
+      slides[slideIndex - 1].style.display = 'block';
+      dots[slideIndex - 1].className += ' active';
+    }
+
+    function changetolight() {
+    document.body.style.backgroundColor = "white"; // Change background color to white
+    document.body.style.color = "black"; // Change text color to black
+    
+
+  }
+  function changetodark() {
+    document.body.style.backgroundColor = "#000000"; // Change background color to black
+    document.body.style.color = "#ffffff"; // Change text color to white
+  }
+  </script>
+</body>
+</html>

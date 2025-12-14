@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Developer Tweets</title>
+  <!-- Google Fonts: Magra for body/nav, Hammersmith One for headings, Poppins for text -->
+  <link href="https://fonts.googleapis.com/css2?family=Magra&family=Hammersmith+One&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /*Base Styles*/
+    body {
+      margin: 0;
+      font-family: 'Magra', sans-serif; /* Handwriting-style font */
+      background: url('Images/tweets/bg.png') no-repeat center center/cover; /* Background image */
+      color: white;
+    }
+
+    /* Navbar Styles (from index.html) */
+    .navbar {
+      background: rgba(73, 72, 129, 0.85);
+      padding: 6px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 999;
+      gap: 100px;
+      height: 70px;
+    }
+    .logo {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      height: 65px;
+      cursor: pointer;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 100px;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Magra', sans-serif;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .nav-links a:hover {
+      color: #4db8ff;
+    }
+    .dropdown {
+      position: relative;
+    }
+    .dropdown > a {
+      background-color: rgba(229, 225, 255, 0.39);
+      border-radius: 20px;
+      padding: 10px 20px;
+      display: inline-block;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .dropdown > a::after { content: ' ▾'; } /* Arrow for dropdown */
+    .dropdown.open > a::after { content: ' ▴'; } /* Change arrow direction when open */
+    .dropdown-content { 
+      position: absolute; /* Dropdown menu */
+      display: none;
+      flex-direction: column;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      padding: 10px;
+      z-index: 999; /* Ensure dropdown is above other elements */
+      top: 100%; /* Position below the dropdown link */
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 220px; /* Minimum width for dropdown */
+    }
+    .dropdown.open .dropdown-content { display: flex; }
+    .dropdown-content a {
+      color: black;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+      border-radius: 4px;
+    }
+    .dropdown-content a:hover { background-color: #4db8ff; color: black; }
+    .hamburger { display: none; }
+
+    /* Mobile Navbar Styles */
+    @media (max-width: 768px) {
+      .navbar { justify-content: center; background: rgba(73, 72, 129, 1); height: 90px; }
+      .logo { left: 0; padding-left: 20px; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background: rgba(73, 72, 129, 1);
+        position: absolute;
+        top: 90px;
+        right: 0;
+        width: 100%;
+        padding: 20px 0;
+      }
+      .nav-links.active { display: flex; }
+      .hamburger { display: block; position: static; margin: 0 auto; transform: scale(3); transform-origin: center center; cursor: pointer; } /* Hamburger icon */
+    }
+
+    /* Divider under navbar */
+    .header-divider {
+      height: 2px;
+      background-color: #9c27b0;
+      width: 100%;
+      margin-top: 70px;
+    }
+
+    /* Title Section */
+    .title-section { text-align: center; margin-top: 90px; padding: 20px 0; }
+    .title-section img { max-width: 1000px; width: 90%; }
+    @media (max-width: 768px) {
+      .title-section img { content: url('Images/tweets/title2.png'); }
+    }
+
+    /* Tweets Container */
+    .tweets-container {
+      display: grid; /* Use grid layout */
+      grid-template-columns: 1fr; /* Single column layout */
+      gap: 30px;
+      padding: 50px;
+      max-width: 1000px; /* Set max width for the container */
+      margin: 0 auto; /* Center the container */
+    }
+    @media (max-width: 768px) { .tweets-container { padding: 30px; } }
+
+    .tweet-box {
+      background: rgba(0, 0, 0, 0.74);
+      display: flex;
+      align-items: flex-start; /* Align items to the start */
+      padding: 40px;
+      border-radius: 12px;
+      min-height: 260px; /* Minimum height for tweet box */
+    }
+    .tweet-box a img {
+      max-width: 800px; width: 100%; margin-right: 30px; border-radius: 6px; display: block; /* Adjust image size */
+    }
+    .tweet-text h2 {
+      margin: 0 0 14px;
+      font-family: 'Hammersmith One', sans-serif;
+      font-size: 2.5rem;
+      line-height: 1.2;
+    }
+    .tweet-text p {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem; /* Adjusted font size */
+      line-height: 1.5; /* Adjusted line height */
+    }
+    @media (max-width: 768px) {
+      .tweet-box { flex-direction: column; align-items: center; text-align: center; padding: 30px; } /* Adjust padding for smaller screens */
+      .tweet-box a img { max-width: 100%; width: 90%; margin: 0 0 25px; margin-right: 0; } /* Adjust image size for smaller screens */
+      .tweet-text h2 { font-size: 2rem; }
+    }
+
+    /* Footer Styles (from index.html) */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #382E6A;
+      margin-top: 20px;
+    }
+    footer img { width: 170px; }
+  </style>
+</head>
+<body>
+  <!-- Header and navigation -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html"><img src="Images/home/logo.png" alt="Gamer News Logo" class="logo"></a>
+      <ul class="nav-links">
+        <li><a href="consoles.html">Gaming Consoles</a></li>
+        <li><a href="tweets.html">Game Developer Tweets</a></li>
+        <li class="dropdown">
+          <a href="#">Games</a>
+          <ul class="dropdown-content">
+            <li><a href="sims4.html">The Sims 4</a></li>
+            <li><a href="stardew-valley.html">Stardew Valley</a></li>
+            <li><a href="minecraft.html">Minecraft</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="hamburger">☰</div>
+    </nav>
+    <div class="header-divider"></div>
+  </header>
+
+  <!-- Main title -->
+  <section class="title-section">
+    <img src="Images/tweets/title.png" alt="Game Developer Tweets Title">
+  </section>
+
+  <!-- Tweets list -->
+  <section class="tweets-container">
+    <div class="tweet-box">
+      <a href="https://x.com/ConcernedApe/status/1889860741592916371" target="_blank" rel="noopener noreferrer"><img src="Images/tweets/stardew.png" alt="Stardew Valley Tweet"></a>
+      <div class="tweet-text">
+        <h2>🌱 Stardew Valley Update Brings Console Fixes Soon!</h2>
+        <p>ConcernedApe delivers Stardew Valley 1.6.15 to PC, Android, and iOS, with console patches rolling out shortly. Fixes include the notorious raccoon shop bug and the divorce crash. Console players, your farm is about to get even better! Stay tuned for more updates! 🚜</p>
+      </div>
+    </div>
+    <div class="tweet-box">
+      <a href="https://x.com/RockstarGames/status/1919746311382851812" target="_blank" rel="noopener noreferrer"><img src="Images/tweets/grand-theft.png" alt="Grand Theft Auto Tweet"></a>
+      <div class="tweet-text">
+       <h2>📰 Breaking News! GTA VI Delayed to 2026!</h2>
+       <p>Bad news, gamers! Rockstar Games has officially pushed GTA VI’s launch to 2026. The highly anticipated trailer is now expected early next year, and PS5/PS5 Pro owners should still be first in line when it arrives. If you haven’t upgraded yet, now’s the perfect time to snag one so you’re ready for the next-gen experience!</p>
+
+      </div>
+    </div>
+    <div class="tweet-box">
+      <a href="https://x.com/TheSims/status/1879220722519969917" target="_blank" rel="noopener noreferrer"><img src="Images/tweets/sims.png" alt="The Sims Tweet"></a>
+      <div class="tweet-text">
+        <h2>🎉 The Sims 4 Kicks Off 25th Anniversary!</h2>
+        <p>Sul Sul! The Sims team is throwing a party to celebrate 25 years of iconic gameplay. Don’t miss the “Behind The Sims” livestream on Jan 14 at 9 AM PT to join the festivities and get a sneak peek at what’s next for Simmers! 🥳</p>
+      </div>
+    </div>
+    <div class="tweet-box">
+      <a href="https://x.com/TheSimsDirect/status/1876662019920908489" target="_blank" rel="noopener noreferrer"><img src="Images/tweets/sims2.png" alt="The Sims Patch Tweet"></a>
+      <div class="tweet-text">
+        <h2>🧺 Laundry Day: Sims Patch Incoming!</h2>
+        <p>The Sims Direct Communications just dropped a new Laundry List addressing key community-reported bugs. Look out for the patch next week to level up your gameplay with smoother experiences!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <img src="Images/home/OIP-removebg-preview 1.png" alt="Social Media Icons">
+  </footer>
+
+  <script>
+    // Dropdown toggle
+    document.querySelectorAll('.dropdown > a').forEach(link => {
+      link.addEventListener('click', e => { /* Toggle dropdown on click */
+        e.preventDefault();
+        link.parentElement.classList.toggle('open');
+      });
+    });
+    // Hamburger menu toggle
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active'); /* Toggle the active class to show/hide the menu */
+    });
+  </script>
+</body>
+</html>

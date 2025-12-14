@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Sims 4 – Gamer News</title>
+  <link href="https://fonts.googleapis.com/css2?family=Magra&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========== Base ========= */
+    body {
+      margin: 0;
+      font-family: 'Magra', sans-serif;
+      background-color: #121212;
+      color: white;
+    }
+    .navbar {
+      background: rgba(73, 72, 129, 0.85);
+      padding: 6px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 70px;
+      z-index: 999;
+      gap: 100px;
+    }
+    .logo {
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      height: 65px;
+      cursor: pointer;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 100px;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Magra', sans-serif;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+    .nav-links a:hover {
+      color: #4db8ff;
+    }
+    .dropdown {
+      position: relative;
+    }
+    .dropdown > a {
+      background-color: rgba(229, 225, 255, 0.39);
+      border-radius: 20px;
+      padding: 10px 20px;
+      display: inline-block;
+      color: white;
+      font-weight: bold;
+    }
+    .dropdown > a::after { content: ' ▾'; }
+    .dropdown.open > a::after { content: ' ▴'; }
+    .dropdown-content {
+      position: absolute;
+      display: none;
+      flex-direction: column;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      padding: 10px;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 220px;
+      z-index: 999;
+    }
+    .dropdown.open .dropdown-content {
+      display: flex;
+    }
+    .dropdown-content a {
+      color: black;
+      padding: 10px 15px;
+      text-decoration: none;
+      display: block;
+      border-radius: 4px;
+    }
+    .dropdown-content a:hover {
+      background-color: #4db8ff;
+      color: black;
+    }
+    /* Hide hamburger on desktop */
+    .hamburger {
+      display: none;
+    }
+
+    /* thin purple line */
+    .header-divider {
+      height: 2px;
+      background-color: #9c27b0;
+      width: 100%;
+      margin-top: 70px;
+    }
+
+    /* Hero banner */
+    .hero {
+      background: url('Images/sims4/banner.png') no-repeat center center/cover;
+      margin-top: -70px;       /* pull it under the fixed nav */
+      padding-top: 70px;       /* so content sits below nav */
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+    .hero-logo {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      /* default desktop scale */
+      transform: scale(0.7);
+      transform-origin: bottom right;
+    }
+
+    /* divider */
+    .divider {
+      height: 2px;
+      background-color: #9c27b0;
+      width: 100%;
+    }
+
+    /* Main background wrapper */
+    .content-background {
+      background: url('Images/sims4/banner2.png') repeat-y center top/cover;
+    }
+
+    /* Section 3: text + banner3 */
+    .section3 {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 20px; /* space between text and image */
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section3 .text {
+      flex: 1;
+      font-family: 'Poppins', sans-serif; /* Use Poppins for text */
+      line-height: 1.6;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .section3 .image {
+      flex: 1;
+    }
+    .section3 .image img {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+    }
+
+    /* Banner4 */
+    .banner4 img {
+      width: 100%;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Text block */
+    .text-block {
+      padding: 20px;
+      max-width: 800px;
+      margin: 20px auto;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    /* Banner6 (Reddit link) */
+    .banner6 img {
+      width: 80%;
+      max-width: 800px;
+      display: block;
+      margin: 30px auto;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    /* Banner5 with YouTube overlay */
+    .banner5 {
+      position: relative;
+      margin: 0;                /* remove gap under banner5 */
+    }
+    .banner5 img {
+      width: 80%;
+      display: block;
+      margin: 0 auto;
+    }
+    .youtube-link {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .youtube-link img {
+      width: 80px;
+      height: auto;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #382E6A;
+    }
+    footer img {
+      width: 170px;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .navbar {
+        justify-content: center;
+        background: rgba(73, 72, 129, 1);
+        height: 90px;
+      }
+      .logo {
+        left: 0;
+        padding-left: 20px; /* add padding to left */
+      }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background: rgba(73, 72, 129, 1);
+        position: absolute;
+        top: 90px;
+        right: 0;
+        width: 100%;
+        border-radius: 0;
+        padding: 20px 0;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      /* mobile hamburger exactly like index page */
+      .hamburger {
+        display: block;
+        font-size: 3rem;
+        position: static;
+        margin: 0 auto;
+        cursor: pointer;
+      }
+      /* hero banner */
+      .hero-logo {
+        transform: none; /* reset scale */
+        width: clamp(100px, 15vw, 180px); /* responsive size */
+        height: auto;
+      }
+      .section3 {
+        flex-direction: column;
+        padding: 20px;
+      }
+      .section3 .text,
+      .section3 .image {
+        flex: auto;
+      }
+      .text-block {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- header/nav -->
+  <header>
+    <nav class="navbar">
+      <a href="index.html">
+        <img src="Images/home/logo.png" alt="Gamer News Logo" class="logo">
+      </a>
+      <ul class="nav-links">
+        <li><a href="consoles.html">Gaming Consoles</a></li>
+        <li><a href="tweets.html">Game Developer Tweets</a></li>
+        <li class="dropdown">
+          <a href="#">Games</a>
+          <ul class="dropdown-content">
+            <li><a href="sims4.html">The Sims 4</a></li>
+            <li><a href="stardew-valley.html">Stardew Valley</a></li>
+            <li><a href="minecraft.html">Minecraft</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="hamburger">☰</div>
+    </nav>
+    <div class="header-divider"></div>
+  </header>
+
+  <!-- hero banner -->
+  <section class="hero">
+    <img src="Images/sims4/sims4.png" alt="The Sims 4" class="hero-logo">
+  </section>
+
+  <!-- purple divider -->
+  <div class="divider"></div>
+
+  <!-- main bg -->
+  <div class="content-background">
+    <!-- section3 -->
+    <section class="section3">
+      <div class="text">
+        <p>The Sims 4 is a life simulation game where you create and control Sims, build homes, pursue careers, and shape their lives. The game offers a mix of creativity and gameplay, allowing players to shape their Sims’ lives and explore endless possibilities in a vibrant, interactive world. Available on PC, Mac, PS4, PS5, Xbox One, and Xbox Series X|S, you can buy it on the EA Games Store, Steam, and other major retailers.</p>
+      </div>
+      <div class="image">
+        <img src="Images/sims4/banner3.png" alt="Sims 4 City Scene">
+      </div>
+    </section>
+
+    <!-- banner4 -->
+    <section class="banner4">
+      <img src="Images/sims4/banner4.png" alt="Toddler CAS Glitch">
+    </section>
+
+    <!-- text block -->
+    <section class="text-block">
+      <p>A recent Sims 4 update has triggered a glitch in CAS. This was caused by slider settings. Check your game folders for expired mods and cc, and press on the link to the Reddit Sims 4 community to find player solutions online, for further advice.</p>
+    </section>
+
+    <!-- banner6 -->
+    <section class="banner6">
+      <a href="https://www.reddit.com/r/sims4cc/comments/1b4q5kz/what_happened_to_my_toddlers_face/" target="_blank">
+        <img src="Images/sims4/banner6.png" alt="Reddit Thread">
+      </a>
+    </section>
+
+    <!-- more text -->
+    <section class="text-block">
+      <p>The highly anticipated “Sims 4: Life and Death” trailer is out now, showcasing exciting new features. Check it out on the EA Games Store and experience the cycle of life like never before!</p>
+    </section>
+
+    <!-- banner5 + YouTube -->
+    <section class="banner5">
+      <img src="Images/sims4/banner5.png" alt="Life & Death Trailer">
+      <a href="https://youtu.be/cHBa2dusw64?si=IESGONUpT1XYgL5t" target="_blank" class="youtube-link">
+        <img src="Images/sims4/Youtube.png" alt="Watch on YouTube">
+      </a>
+    </section>
+  </div><!-- end content-background -->
+
+  <!-- footer -->
+  <footer>
+    <img src="Images/home/OIP-removebg-preview 1.png" alt="Social Media Icons">
+  </footer>
+
+  <script>
+    // dropdown toggle
+    document.querySelectorAll('.dropdown > a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        link.parentElement.classList.toggle('open');
+      });
+    });
+    // hamburger toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

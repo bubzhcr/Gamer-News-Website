@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gamer News</title>
+  <link href="https://fonts.googleapis.com/css2?family=Magra&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base styles */
+body {
+  margin: 0;
+  font-family: 'Magra', sans-serif;
+  background-color: #000000;
+  color: white;
+}
+
+.navbar {
+  background: rgba(73, 72, 129, 0.85); /* Navbar color */
+  padding: 6px 20px; 
+  display: flex; /* Align items in the navbar */
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999; /* Keep navbar on top */
+  gap: 100px;
+  height: 70px;
+}
+
+.logo {
+  position: absolute; /* Logo position */
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  height: 65px;
+  cursor: pointer;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 100px; /* Space between nav links */
+  align-items: center;
+  justify-content: center;
+  font-family: 'Magra', sans-serif;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem; /* Font size for nav links */
+}
+
+.nav-links a:hover {
+  color: #4db8ff; /* Hover color for nav links */
+}
+
+.dropdown {
+  position: relative; /* Dropdown menu */
+}
+
+.dropdown > a {
+  background-color: rgba(229, 225, 255, 0.39);
+  border-radius: 20px;
+  padding: 10px 20px; 
+  display: inline-block;
+  color: white;
+  font-weight: bold;
+}
+
+.dropdown > a::after {
+  content: ' ▾'; /* Arrow for dropdown */
+}
+
+.dropdown.open > a::after {
+  content: ' ▴'; /* Arrow for open dropdown */
+}
+
+.dropdown-content {
+  position: absolute;
+  display: none;
+  flex-direction: column; 
+  background-color: white;
+  border-radius: 8px; 
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  padding: 10px;
+  z-index: 999;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%); /* Center dropdown */
+  min-width: 220px;
+}
+
+.dropdown.open .dropdown-content {
+  display: flex;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  border-radius: 4px;
+}
+
+.dropdown-content a:hover {
+  background-color: #4db8ff;
+  color: black;
+}
+
+/* Hide hamburger on desktop version of website */
+.hamburger {
+  display: none;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  /* Navbar adjustments */
+  .navbar {
+    justify-content: center;
+    background: rgba(73, 72, 129, 1);
+    height: 90px;
+  }
+
+  /* Logo resets */
+  .logo {
+    left: 0;
+    padding-left: 20px;
+  }
+
+  /* Nav links become drawer */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: rgba(73, 72, 129, 1);
+    position: absolute;
+    top: 90px;
+    right: 0;
+    width: 100%;
+    border-radius: 0; /* No border radius */
+    padding: 20px 0;
+  }
+  .nav-links.active {
+    display: flex;
+  }
+
+  /* Show, center & enlarge hamburger (menu for mobile) */
+  .hamburger {
+    display: block;
+    position: static;
+    margin: 0 auto;
+    transform: scale(3); /* Enlarge hamburger */
+    transform-origin: center center; /* Center the hamburger */
+  }
+
+  /* Smaller (TITLE) banner image */
+  .title-img {
+    content: url('Images/home/banner-small.png'); /* Smaller image for mobile */
+    max-width: 150px; /* Adjust size */
+    margin-top: 20px;
+  }
+}
+
+/* Rest of my page styling */
+.header-divider {
+  height: 2px;
+  background-color: #9c27b0;
+  width: 100%;
+  margin-top: 70px;
+}
+
+.hero {
+  background: url('Images/home/hero-banner.gif') no-repeat center center/cover;
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+  position: relative;
+}
+
+.title-img {
+  max-width: 1000px;
+}
+
+.divider {
+  height: 2px;
+  background-color: #9c27b0;
+  width: 100%;
+}
+
+.banner img {
+  width: 100%;
+  display: block;
+}
+
+.banner-3-background {
+  background: url('Images/home/banner-3.png') repeat-y center center/cover;
+  width: 100%;
+  padding: 60px 20px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 40px;
+  color: #fff;
+}
+
+.carousel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.carousel-item {
+  background-color: #1c1c2b;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: height 0.4s ease-in-out;
+  height: 150px;
+  position: relative;
+}
+.carousel-item.expanded {
+  height: 300px;
+}
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: object-position 0.4s ease-in-out;
+}
+.carousel-item p { 
+  position: absolute;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 0.9rem;
+}
+
+.about { /* About Us section */
+  padding: 40px 20px;
+  background-color: rgba(34, 29, 0, 0.44);
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  max-width: 800px;
+  margin: 40px auto;
+  border-radius: 12px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #382E6A;
+}
+footer img {
+  width: 170px;
+}
+
+  </style>
+</head>
+<body>
+<header>
+  <nav class="navbar">
+    <a href="index.html"><img src="Images/home/logo.png" alt="Gamer News Logo" class="logo"></a>
+    <ul class="nav-links">
+      <li><a href="consoles.html">Gaming Consoles</a></li>
+      <li><a href="tweets.html">Game Developer Tweets</a></li>
+      <li class="dropdown">
+        <a href="#">Games</a>
+        <ul class="dropdown-content">
+          <li><a href="sims4.html">The Sims 4</a></li>
+          <li><a href="stardew-valley.html">Stardew Valley</a></li>
+          <li><a href="minecraft.html">Minecraft</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div class="hamburger">☰</div>
+  </nav>
+</header>
+
+<div class="header-divider"></div>
+
+<section class="hero">
+  <img src="Images/home/banner-title.png" alt="Gamer News Title" class="title-img">
+</section>
+
+<div class="divider"></div>
+
+<section class="banner">
+  <img src="Images/home/banner-2.png" alt="Banner Image">
+</section>
+
+<div class="divider"></div>
+
+<div class="banner-3-background">
+<h2>LATEST NEWS!</h2>
+<div class="carousel">
+  <div class="carousel-item expanded">
+    <img src="Images/home/pigs.png" alt="Pigs Update">
+    <p>Mojang's first update of 2025: Pigs</p>
+  </div>
+  <div class="carousel-item">
+    <img src="Images/home/gta.png" alt="GTA VI">
+    <p>GTA Agents Of Sabotage</p>
+  </div>
+  <div class="carousel-item">
+    <img src="Images/home/underground.png" alt="Fav Game">
+    <p>Personal Favourite CC haul</p>
+  </div>
+  <div class="carousel-item expanded">
+    <img src="Images/home/lights.png" alt="Chocolatier">
+    <p>Haunted Chocolatier Snippet</p>
+  </div>
+  <div class="carousel-item">
+    <img src="Images/home/bride-train.png" alt="GTA Online">
+    <p>GTA VI coming 2026</p>
+  </div>
+  <div class="carousel-item">
+    <img src="Images/home/life-is-strange.png" alt="Life is Strange">
+    <p>Life is Strange 4</p>
+  </div>
+</div>
+
+<section class="about">
+  <h2>About Us</h2>
+  <p>Welcome to Gamer News! We're your one-stop source for all things gaming, featuring updates on fan-favorites like Stardew Valley, The Sims 4 and Minecraft. Our site keeps you in the loop with the latest news from developers like ConcernedApe and highlights exciting new games and consoles on the horizon. Dive into discussions, explore what's next — Gamer News is your hub for staying informed and connected!</p>
+</section>
+
+</div>
+
+<footer>
+  <img src="Images/home/OIP-removebg-preview 1.png" alt="Social Media Icons">
+</footer>
+
+<script>
+  document.querySelectorAll('.dropdown > a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      link.parentElement.classList.toggle('open');
+    });
+  });
+
+  const items = document.querySelectorAll('.carousel-item');
+  items.forEach((item, index) => {
+    item.addEventListener('click', () => {
+      const row = Math.floor(index / 3); // Get the row number
+      items.forEach((el, i) => { // Loop through all items
+        const r = Math.floor(i / 3);
+        el.classList.remove('expanded'); // Rmove 'expanded' from all items
+        if (r === row && el === item) { // Add 'expanded' only to the image clicked in the same row.
+          el.classList.add('expanded');
+        }
+      });
+    });
+  });
+
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+</script>
+</body>
+</html>
